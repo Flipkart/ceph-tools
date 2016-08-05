@@ -64,7 +64,7 @@ def main():
                 continue
             # NOTE: foll string processing is FK / D42 specific ???
             host_name = osd_host['name']
-            for suffix in ('-hdd', '-ssd'):
+            for suffix in ('-hdd', '-ssd', '-ssdcache'):
                 if host_name.endswith(suffix):
                     host_name = host_name[:-len(suffix)]
             retval = add_osd_to_map(host_name, osd_node['name'])
