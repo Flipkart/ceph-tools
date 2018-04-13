@@ -1,0 +1,11 @@
+Usage: python scrub_bucket_boto.py [BUCKET_NAME] [NUM_OF_THREADS -- optional]
+
+Parameters:
+BUCKET_NAME - Pass the name of the bucket that has to be scrubbed
+NUM_OF_THREADS - Number of threads that will be used for scrubbing the bucket
+		 Default value: 20
+
+Examples:
+  python scrub_bucket_boto.py dss-hnh05012018 -> This will scrub bucket 'dss-hnh05012018' using 20 (default num) of threads
+  python scrub_bucket_boto.py dss-hnh05012018 10 -> This will scrub bucket 'dss-hnh05012018' using 10 threads
+
