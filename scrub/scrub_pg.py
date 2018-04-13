@@ -15,7 +15,7 @@ def print_help():
     FileUtil.print_file(HELP_FILE_LOCATION)
 
 def show_help(args):
-    return len(args) < 1 or len(args) > 1 or args[0] == "--help" or args[0] == "gtarocks"
+    return len(args) < 1 or len(args) > 1 or args[0] == "--help"
 
 if __name__ == '__main__':
     start_time = Util.get_timestamp()

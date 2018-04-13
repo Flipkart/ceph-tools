@@ -1,6 +1,8 @@
+import logging
 import paramiko
 import json
 import re
+import sys
 import time
 
 
@@ -44,3 +46,17 @@ class Util(object):
     @staticmethod
     def parse_json(json_raw):
         return json.loads(json_raw)
+
+    @staticmethod
+    def get_logger(file_name):
+        formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
+                                      datefmt='%Y-%m-%d %H:%M:%S')
+        handler = logging.FileHandler(file_name)
+        handler.setFormatter(formatter)
+        screen_handler = logging.StreamHandler(stream=sys.stdout)
+        screen_handler.setFormatter(formatter)
+        logger = logging.getLogger("scrub")
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
+        logger.addHandler(screen_handler)
+        return logger

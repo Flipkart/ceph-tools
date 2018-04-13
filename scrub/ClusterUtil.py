@@ -137,11 +137,11 @@ class ClusterUtil:
         bucket_stats = Util.parse_json(bucket_stats_raw)
         return bucket_stats
 
-    def get_bucket_marker(self, bucket_name, admin_host):
-        command = self.COMMAND_BUCKET_STATS % bucket_name
-        bucket_stats_raw = Util.run_command_remote(command, admin_host)
-        bucket_stats = Util.parse_json(bucket_stats_raw)
-        return bucket_stats["marker"]
+    def get_bucket_marker(self, bucket_name):
+        admin_conn = self.prepare_rgwadmin_conn()
+        bucket_meta = admin_conn.get_metadata("bucket", bucket_name)
+        print bucket_meta["data"]["bucket"]["marker"]
+
 
     def get_num_of_objects(self, bucket_name, admin_host):
         bucket_stats = self.get_bucket_stats(bucket_name, admin_host)

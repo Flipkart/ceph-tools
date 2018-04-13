@@ -1,6 +1,7 @@
 from BucketScrubber import BucketScrubber
 from FileUtil import FileUtil
 import rados
+from Util import Util
 
 
 class RadosBucketScrubber(BucketScrubber):
@@ -13,6 +14,7 @@ class RadosBucketScrubber(BucketScrubber):
         self.bucket_marker = self.get_bucket_marker(bucket_name)
         self.setup_cluster(conf_file)
         self.create_io_contexts(base_tier_pool, cache_tier_pool)
+        self.logger = Util.get_logger(__name__)
 
     def setup_cluster(self, conf_file):
         try:
@@ -29,7 +31,7 @@ class RadosBucketScrubber(BucketScrubber):
             print "Exception happened while creating contexts:\n%s" % str(ex)
 
     def get_bucket_marker(self, bucket_name):
-        return self.cluster_util.get_bucket_marker(bucket_name, self.cluster.admin_host)
+        return self.cluster_util.get_bucket_marker(bucket_name)
 
     def scrap_object(self, object):
         try:

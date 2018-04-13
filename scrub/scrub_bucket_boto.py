@@ -1,7 +1,9 @@
 from ConfigManager import ConfigManager
 from BotoBucketScrubber import BotoBucketScrubber
 from FileUtil import FileUtil
+import logging as Logger
 import sys
+from Util import Util
 
 HELP_FILE_LOCATION = './help/scrub_bucket_boto'
 
@@ -31,5 +33,14 @@ if __name__ == '__main__':
 
     print "Bucket to be scrubbed %s" % bucket_name
     print "Number of threads %d" % num_threads
-    bucket_scraper = BotoBucketScrubber(cluster_name, bucket_name, num_threads, output_file_name)
-    bucket_scraper.run()
+
+    # logger = Util.get_logger("boto_scrub.log")
+    # logger.info("helloworld")
+    # logger.error("This is error")
+    bucket_scrubber = BotoBucketScrubber(cluster_name, bucket_name, num_threads, output_file_name)
+    bucket_scrubber.run()
+
+
+"""
+Check eTags
+"""
