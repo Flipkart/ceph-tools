@@ -1,12 +1,12 @@
-from AtomicCounter import AtomicCounter
-from ClusterUtil import ClusterUtil
-import Constants
-from FileUtil import FileUtil
-from Logger import Logger
+from common.AtomicCounter import AtomicCounter
+from utils.ClusterUtil import ClusterUtil
+import common.Constants as Constants
+from utils.FileUtil import FileUtil
+from common.Logger import Logger
 from multiprocessing.dummy import Pool as ThreadPool
-from ProgressBar import ProgressBar
+from common.ProgressBar import ProgressBar
 from Scrubber import Scrubber
-from Util import Util
+from utils.Util import Util
 
 
 class BucketScrubber(Scrubber):

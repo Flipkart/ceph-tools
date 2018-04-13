@@ -1,12 +1,12 @@
 import atexit
-from ArgumentParser import ArgumentParser
+from common.ArgumentParser import ArgumentParser
 from DeepBucketScrubber import DeepBucketScrubber
 from ShallowBucketScrubber import ShallowBucketScrubber
 from Cluster import Cluster
-import Constants
-from GlobalConfigManager import GlobalConfigManager
+import common.Constants as Constants
+from common.GlobalConfigManager import GlobalConfigManager
 from UserScrubber import UserScrubber
-from Util import Util
+from utils.Util import Util
 
 
 def get_deep_bucket_scrubber(global_config_manager, cluster):

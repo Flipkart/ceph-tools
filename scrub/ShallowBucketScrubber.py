@@ -1,6 +1,6 @@
 from BucketScrubber import BucketScrubber
-from FileUtil import FileUtil
-from Logger import Logger
+from utils.FileUtil import FileUtil
+from common.Logger import Logger
 # import rados
 
 

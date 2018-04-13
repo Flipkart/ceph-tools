@@ -1,6 +1,6 @@
-from FileUtil import FileUtil
+from utils.FileUtil import FileUtil
 import hashlib
-from Logger import Logger
+from common.Logger import Logger
 import paramiko
 import pickle
 import json

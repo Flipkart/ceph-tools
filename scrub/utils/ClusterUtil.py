@@ -1,7 +1,7 @@
 import boto
 import boto.s3.connection
-import Constants
-from ParserUtil import ParserUtil
+import common.Constants as Constants
+from utils.ParserUtil import ParserUtil
 from rgwadmin import RGWAdmin
 from Util import Util
 

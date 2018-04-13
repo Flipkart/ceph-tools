@@ -1,7 +1,7 @@
 from BucketScrubber import BucketScrubber
-import Constants
-from FileUtil import FileUtil
-from Logger import Logger
+import common.Constants as Constants
+from utils.FileUtil import FileUtil
+from common.Logger import Logger
 
 class DeepBucketScrubber(BucketScrubber):
 
