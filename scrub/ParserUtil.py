@@ -15,7 +15,7 @@ class ParserUtil(object):
 
     @staticmethod
     # Extract size of the object from rados stat
-    # Used by RadosBucketScrubber
+    # Used by ShallowBucketScrubber
     def extract_size_from_stat(rados_stat):
         return int(rados_stat.split(',')[0][1:-1])
 

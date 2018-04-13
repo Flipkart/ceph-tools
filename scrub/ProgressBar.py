@@ -1,10 +1,11 @@
+import Constants
 import progressbar as pb
 
 
 class ProgressBar(object):
     def __init__(self, max_val):
-        widgets = ['Helloworld: ', pb.Percentage(), ' ',
-                   pb.Bar(marker="#"), ' ', pb.ETA()]
+        widgets = [Constants.PROGRESS_BAR_MESSAGE, pb.Percentage(), ' ',
+                   pb.Bar(marker=Constants.PROGRESS_BAR_MARKER), ' ', pb.ETA()]
         self.__progress_bar = pb.ProgressBar(widgets=widgets, maxval=max_val)
 
     def _get_progress_bar(self):

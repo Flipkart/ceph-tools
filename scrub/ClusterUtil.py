@@ -1,20 +1,15 @@
 import boto
 import boto.s3.connection
-from Cluster import Cluster
+import Constants
 from ParserUtil import ParserUtil
 from rgwadmin import RGWAdmin
 from Util import Util
 
-class ClusterUtil:
-    # Default number of objects that are retrieved in every iteration
-    KEYS_PER_QUERY_DEFAULT = 10000
-    # Max number of objects a bucket can have
-    MAX_NO_OF_OBJECTS = 99999999
-    #To-do: Build a CommandRetriever which checks the version of ceph and builds the command
-    COMMAND_BUCKET_STATS = 'sudo radosgw-admin bucket stats --bucket=%s'
 
-    def __init__(self, cluster_name):
-        self.__cluster = Cluster(cluster_name)
+class ClusterUtil:
+    def __init__(self, cluster, logger):
+        self.__cluster = cluster
+        self.logger = logger
 
     def __get_cluster(self):
         return self.__cluster
@@ -35,8 +30,6 @@ class ClusterUtil:
                 "secret_key": user['keys'][0]['secret_key']
             }
         except Exception as ex:
-            # print "Exception in get_bucket_owner_keys %s" % bucket_name
-            # print str(ex)
             return None
 
     def prepare_s3_conn(self, bucket_name):
@@ -72,20 +65,15 @@ class ClusterUtil:
             object = bucket.lookup(object_name)
             return object
         except Exception as ex:
-            # print "Exception happened in get_object %s %s" % (bucket_name, object_name)
-            # print str(ex)
             return None
 
-    def get_objects(self, bucket_name, max_objects=MAX_NO_OF_OBJECTS, keys_per_query=KEYS_PER_QUERY_DEFAULT, marker=""):
+    def get_objects(self, bucket_name, max_objects=Constants.MAX_NO_OF_OBJECTS, keys_per_query=Constants.KEYS_PER_QUERY_DEFAULT, marker=""):
         bucket = self.get_bucket(bucket_name)
         object_list = []
         total_objs_retrieved = 0
 
         while total_objs_retrieved < max_objects:
-            start_time = Util.get_timestamp()
-
             keys_per_query = min(max_objects - total_objs_retrieved, keys_per_query)
-
             objects = bucket.get_all_keys(max_keys=keys_per_query, marker=marker)
             objs_retrieved = len(objects)
 
@@ -94,8 +82,7 @@ class ClusterUtil:
                 break
 
             total_objs_retrieved = total_objs_retrieved + objs_retrieved
-
-            print "Retrieved: %d" % total_objs_retrieved
+            self.logger.info("Retrieved: %d" % total_objs_retrieved)
 
             last_object = None
             for object in objects:
@@ -103,8 +90,6 @@ class ClusterUtil:
                 last_object = object
 
             marker = last_object.name.encode('utf-8')
-
-            print "time %s" % (Util.get_lapsed_time(start_time))
 
         return object_list
 
@@ -127,12 +112,10 @@ class ClusterUtil:
             owner_uid = bucket_meta['data']['owner']
             return owner_uid
         except Exception as ex:
-            # print "Exception happened in get_object_owner_uid %s" % bucket_name
-            # print str(ex)
             return None
 
     def get_bucket_stats(self, bucket_name, admin_host):
-        command = self.COMMAND_BUCKET_STATS % bucket_name
+        command = Constants.COMMAND_BUCKET_STATS % bucket_name
         bucket_stats_raw = Util.run_command_remote(command, admin_host)
         bucket_stats = Util.parse_json(bucket_stats_raw)
         return bucket_stats
@@ -140,9 +123,12 @@ class ClusterUtil:
     def get_bucket_marker(self, bucket_name):
         admin_conn = self.prepare_rgwadmin_conn()
         bucket_meta = admin_conn.get_metadata("bucket", bucket_name)
-        print bucket_meta["data"]["bucket"]["marker"]
-
+        return bucket_meta["data"]["bucket"]["marker"]
 
     def get_num_of_objects(self, bucket_name, admin_host):
         bucket_stats = self.get_bucket_stats(bucket_name, admin_host)
         return int(bucket_stats["usage"]["rgw.main"]["num_objects"])
+
+    @staticmethod
+    def get_rados_object_name(bucket_marker, object_name):
+        return Constants.RADOS_OBJECT_NAME_FORMAT % (bucket_marker, object_name)

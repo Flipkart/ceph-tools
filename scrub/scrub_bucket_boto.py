@@ -1,5 +1,5 @@
 from ConfigManager import ConfigManager
-from BotoBucketScrubber import BotoBucketScrubber
+from DeepBucketScrubber import DeepBucketScrubber
 from FileUtil import FileUtil
 import logging as Logger
 import sys
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     # logger = Util.get_logger("boto_scrub.log")
     # logger.info("helloworld")
     # logger.error("This is error")
-    bucket_scrubber = BotoBucketScrubber(cluster_name, bucket_name, num_threads, output_file_name)
+    bucket_scrubber = DeepBucketScrubber(cluster_name, bucket_name, num_threads, output_file_name)
     bucket_scrubber.run()
 
 

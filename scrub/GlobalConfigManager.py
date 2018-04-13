@@ -1,7 +1,7 @@
 from ConfigParser import ConfigParser
 
 
-class ConfigManager(object):
+class GlobalConfigManager(object):
     def __init__(self, config_file):
         self.__parser = ConfigParser()
         self.__parser.read(config_file)

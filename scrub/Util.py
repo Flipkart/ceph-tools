@@ -1,5 +1,7 @@
-import logging
+from FileUtil import FileUtil
+from Logger import Logger
 import paramiko
+import pickle
 import json
 import re
 import sys
@@ -48,15 +50,15 @@ class Util(object):
         return json.loads(json_raw)
 
     @staticmethod
-    def get_logger(file_name):
-        formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
-                                      datefmt='%Y-%m-%d %H:%M:%S')
-        handler = logging.FileHandler(file_name)
-        handler.setFormatter(formatter)
-        screen_handler = logging.StreamHandler(stream=sys.stdout)
-        screen_handler.setFormatter(formatter)
-        logger = logging.getLogger("scrub")
-        logger.setLevel(logging.INFO)
-        logger.addHandler(handler)
-        logger.addHandler(screen_handler)
-        return logger
+    def get_logger(log_file):
+        return Logger(log_file)
+
+    @staticmethod
+    def dump_object_to_file(object, file_name):
+        file_obj = FileUtil.get_file_obj_for_write(file_name)
+        pickle.dump(object, file_obj)
+
+    @staticmethod
+    def get_object_from_file(file_name):
+        file_obj = FileUtil.get_file_obj_for_read(file_name)
+        return pickle.load(file_obj)

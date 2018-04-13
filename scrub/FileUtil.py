@@ -1,4 +1,5 @@
 import json
+import os
 
 OUTPUT_LINE_SEPERATOR = '\n'
 
@@ -39,3 +40,8 @@ class FileUtil(object):
         content = file_obj.read()
         print content
         FileUtil.close_file(file_obj)
+
+    @staticmethod
+    def create_log_directory(directory):
+        if not os.path.exists(directory):
+            os.makedirs(directory)

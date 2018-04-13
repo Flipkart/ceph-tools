@@ -1,5 +1,5 @@
 from ConfigManager import ConfigManager
-from RadosBucketScrubber import RadosBucketScrubber
+from ShallowBucketScrubber import ShallowBucketScrubber
 from FileUtil import FileUtil
 import sys
 
@@ -27,12 +27,12 @@ if __name__ == '__main__':
     cluster_name = config_manager.get_config_value("cluster_name")
     bucket_name = config_manager.get_config_value("bucket_name")
     num_threads = config_manager.get_config_value("num_threads")
-    base_tier_pool = config_manager.get_config_value("base_tier_pool")
-    cache_tier_pool = config_manager.get_config_value("cache_tier_pool")
+    bucket_data_pool = config_manager.get_config_value("bucket_data_pool")
+    bucket_data_cache_pool = config_manager.get_config_value("bucket_data_cache_pool")
     conf_file_path = config_manager.get_config_value("conf_file_path")
     output_file_name = config_manager.get_config_value("output_file_name")
 
     print "Bucket to be scrubbed %s" % bucket_name
     print "Number of threads %d" % num_threads
-    bucket_scraper = RadosBucketScrubber(cluster_name, bucket_name, base_tier_pool, cache_tier_pool, conf_file_path, num_threads, output_file_name)
-    bucket_scraper.run()
+    bucket_scruber = ShallowBucketScrubber(cluster_name, bucket_name, bucket_data_pool, bucket_data_cache_pool, conf_file_path, num_threads, output_file_name)
+    bucket_scruber.run()
