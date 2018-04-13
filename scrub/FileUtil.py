@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 
@@ -12,6 +13,10 @@ class FileUtil(object):
             # f.close()
         content = [x.strip() for x in content]
         return content
+
+    @staticmethod
+    def get_file_content_raw(file_name):
+        return FileUtil.get_file_obj_for_read(file_name).read()
 
     @staticmethod
     def load_json(file_name):
@@ -45,3 +50,12 @@ class FileUtil(object):
     def create_log_directory(directory):
         if not os.path.exists(directory):
             os.makedirs(directory)
+
+    @staticmethod
+    def compute_md5_hash(file_name):
+        try:
+            file_content = FileUtil.get_file_content_raw(file_name)
+            checksum = hashlib.md5(file_content).hexdigest()
+            return checksum
+        except Exception, e:
+            print "Exception occurred while calculating checksum :" + str(e)

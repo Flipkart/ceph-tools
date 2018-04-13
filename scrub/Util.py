@@ -1,4 +1,5 @@
 from FileUtil import FileUtil
+import hashlib
 from Logger import Logger
 import paramiko
 import pickle
@@ -62,3 +63,4 @@ class Util(object):
     def get_object_from_file(file_name):
         file_obj = FileUtil.get_file_obj_for_read(file_name)
         return pickle.load(file_obj)
+
